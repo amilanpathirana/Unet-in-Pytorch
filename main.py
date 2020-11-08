@@ -21,6 +21,8 @@ class Unet(nn.Module):
         super(Unet,self).__init__()
 
         self.maxpool=nn.MaxPool2d(kernel_size=2,stride=2)
+
+        self.relu=nn.ReLU()
         
         self.conv_layer_1=nn.Conv2d(1,64,kernel_size=3)
 
@@ -46,18 +48,29 @@ class Unet(nn.Module):
 
 
     def forward(self,x):
-        print(x.size())
+        print("Input Size To 1st Layer :",x.size())
         x1=self.conv_layer_1(x)
-        print("After 1st Conv :", x1.size())
-        x2=F.relu(x1)
-        print(x2.size())
+        x2=self.relu(x1)
         x3=self.conv_layer_2(x2)
-        print("After 2nd Conv :", x3.size())
-        x4=F.relu(x3)
-        print(x4.size())
+        print("After Duble Conolution :", x3.size())
+        x4=self.relu(x3)
         x5=self.maxpool(x4)
-        print("After Double Conv :",x5.size())
+        print("After First MaxPool :",x5.size())
+        print("\n")
     
+        print("Input Size To 2nd Layer :",x5.size())
+        x6=self.conv_layer_3(x5)
+        x7=self.relu(x6)
+        x8=self.conv_layer_4(x7)
+        print("After Duble Conolution :", x8.size())
+        x9=self.relu(x8)
+        x10=self.maxpool(x9)
+        print("After First MaxPool :",x10.size())
+
+
+
+
+
         return x5
         #x2=self.maxpool(x1)
         #x3=self.conv_layer_2(x2)
