@@ -66,28 +66,49 @@ class Unet(nn.Module):
         x9=self.relu(x8)
         x10=self.maxpool(x9)
         print("After First MaxPool :",x10.size())
+        print("\n")
+
+        print("Input Size To 3rd Layer :",x10.size())
+        x11=self.conv_layer_5(x10)
+        x12=self.relu(x11)
+        x13=self.conv_layer_6(x12)
+        print("After Duble Conolution :", x13.size())
+        x14=self.relu(x13)
+        x15=self.maxpool(x14)
+        print("After First MaxPool :",x15.size())
+        print("\n")
 
 
+        print("Input Size To 4th Layer :",x15.size())
+        x16=self.conv_layer_7(x15)
+        x17=self.relu(x16)
+        x18=self.conv_layer_8(x17)
+        print("After Duble Conolution :", x18.size())
+        x19=self.relu(x18)
+        x20=self.maxpool(x19)
+        print("After First MaxPool :",x20.size())
+        print("\n")
 
 
+        print("Input Size To 4th Layer :",x20.size())
+        x21=self.conv_layer_9(x20)
+        x22=self.relu(x21)
+        x23=self.conv_layer_10(x22)
+        print("After Duble Conolution :", x23.size())
+        x24=self.relu(x23)
+        x25=self.maxpool(x24)
+        print("After First MaxPool :",x25.size())
+        print("\n")
 
         return x5
-        #x2=self.maxpool(x1)
-        #x3=self.conv_layer_2(x2)
-        #x4=self.maxpool(x3)
-        #x5=self.conv_layer_3(x4)
-        #x6=self.maxpool(x5)
-        #x7=self.conv_layer_4(x6)
-        #x8=self.maxpool(x7)
-        #x9=self.conv_layer_5(x8)
-        #print(x9.size())
+
 
         
 if __name__=="__main__":
     image=torch.rand((1,1,572,572))
     model=Unet()
     model(image)
-    #print(image)
+
     
 
 
