@@ -59,6 +59,14 @@ class Unet(nn.Module):
         self.uppool4=nn.ConvTranspose2d(128,64,kernel_size=2,stride=2)
               
 
+        self.conv_layer_17=nn.Conv2d(128,64,kernel_size=3)
+
+        self.conv_layer_18=nn.Conv2d(64,64,kernel_size=3)
+
+        self.conv_layer_19=nn.Conv2d(64,2,kernel_size=1)
+
+        
+              
 
     def forward(self,x):
         print("Input Size To 1st Layer :",x.size())
@@ -67,6 +75,7 @@ class Unet(nn.Module):
         x3=self.conv_layer_2(x2)
         print("After Duble Conolution :", x3.size())
         x4=self.relu(x3)
+        print("Size of X4 going to the right side :", x4.size())
         x5=self.maxpool(x4)
         print("After MaxPool :",x5.size())
         print("\n")
@@ -192,7 +201,37 @@ class Unet(nn.Module):
 
 
 
-        return x5
+        print("\n")
+        sizeoftensortobecropped=x4.shape[2]
+        sizeoftargettensor=x43.shape[2]
+        print("Width of the left side tensor : ",sizeoftensortobecropped)
+        print("Width of the right side tensor : ",sizeoftargettensor)
+        delta=sizeoftensortobecropped-sizeoftargettensor
+        x4cropped=x4[:,:,delta//2:sizeoftensortobecropped-delta//2,delta//2:sizeoftensortobecropped-delta//2]
+        print("Width of the left side tensor after cropping : ", x4cropped.shape[2])
+
+
+        print("\n")
+        x44=torch.cat([x4cropped,x43],1)
+        print("After Cat :",x44.size())
+
+
+        print("\n")
+        print("Input Size To 9th Layer :",x44.size())
+        x45=self.conv_layer_17(x44)
+        x46=self.relu(x45)
+        x47=self.conv_layer_18(x46)
+        print("After Duble Conolution :", x47.size())
+        x48=self.relu(x47)
+        x49=self.conv_layer_19(x48)
+        print("Final output :", x49.size())
+        #x49=self.uppool4(x48)
+        #print("After UpPool :",x43.size())
+
+
+
+
+        return x49
 
 
         
