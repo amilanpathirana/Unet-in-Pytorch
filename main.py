@@ -4,14 +4,7 @@ import torch.nn.functional as F
 
 
 
-def double_conv(in_channels,out_channels):
-    conv=nn.Sequential(
-        nn.Conv2d(in_channels,out_channels,kernel_size=3),
-        nn.ReLU(inplace=True),
-        nn.Conv2d(out_channels,out_channels,kernel_size=3),
-        nn.ReLU(inplace=True)
-    )
-    return conv
+
 
 
 
@@ -85,11 +78,24 @@ class Unet(nn.Module):
         x18=self.conv_layer_8(x17)
         print("After Duble Conolution :", x18.size())
         x19=self.relu(x18)
-        x20=self.maxpool(x19)
-        print("After First MaxPool :",x20.size())
+        print(" Size of X19 going to the right side :", x19.size())
+        #x20=self.maxpool(x19)
+        #print("After First MaxPool :",x20.size())
+
+        sizeoftensortobecropped=x19.shape[2]
+        sizeoftargettensor=x20.shape[2]
+        print("Size : ",sizeoftensortobecropped)
+        print("Size : ",sizeoftargettensor)
+
+
+
+
+
+
+
+
+
         print("\n")
-
-
         print("Input Size To 4th Layer :",x20.size())
         x21=self.conv_layer_9(x20)
         x22=self.relu(x21)
@@ -100,14 +106,21 @@ class Unet(nn.Module):
         print("After First MaxPool :",x25.size())
         print("\n")
 
+
+
+
+
+
         return x5
 
 
         
 if __name__=="__main__":
-    image=torch.rand((1,1,572,572))
+    image=torch.rand(1,1,572,572)
+    
     model=Unet()
     model(image)
+
 
     
 
